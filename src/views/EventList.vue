@@ -56,7 +56,6 @@ export default {
           if (this.totalEvents == 0) {
             this.totalEvents = response.headers["x-total-count"]
           }
-          console.log(this.getTotalPages)
         })
         .catch((error) => {
           console.log(error)
