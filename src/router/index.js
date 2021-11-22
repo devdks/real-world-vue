@@ -37,27 +37,10 @@ const routes = [
     ],
   },
   {
-    path: "/event/:id",
-    /* redirect: (to) => {
-      return { name: "EventDetails", params: { id: to.params.id } }
-    }, */ // the to parameter is not necessary in this case since the params have the same name
-    redirect: () => {
-      return { name: "EventDetails" }
+    path: "/event/:afterEvent(.*)",
+    redirect: (to) => {
+      return { path: "/events/" + to.params.afterEvent }
     },
-    children: [
-      {
-        path: "register",
-        redirect: () => ({
-          name: "EventRegister",
-        }),
-      },
-      {
-        path: "edit",
-        redirect: () => ({
-          name: "EventEdit",
-        }),
-      },
-    ],
   },
   {
     path: "/about-us",
