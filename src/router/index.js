@@ -13,7 +13,7 @@ const routes = [
     component: EventList,
   },
   {
-    path: "/event/:id",
+    path: "/events/:id",
     name: "EventLayout",
     props: true,
     component: EventLayout,
@@ -33,6 +33,29 @@ const routes = [
         name: "EventEdit",
         props: true,
         component: EventEdit,
+      },
+    ],
+  },
+  {
+    path: "/event/:id",
+    /* redirect: (to) => {
+      return { name: "EventDetails", params: { id: to.params.id } }
+    }, */ // the to parameter is not necessary in this case since the params have the same name
+    redirect: () => {
+      return { name: "EventDetails" }
+    },
+    children: [
+      {
+        path: "register",
+        redirect: () => ({
+          name: "EventRegister",
+        }),
+      },
+      {
+        path: "edit",
+        redirect: () => ({
+          name: "EventEdit",
+        }),
       },
     ],
   },
