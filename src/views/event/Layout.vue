@@ -13,33 +13,13 @@
 </template>
 
 <script>
-import EventService from "@/services/EventService.js"
+import store from "@/store"
 
 export default {
-  props: ["id"],
   data() {
     return {
-      event: null,
+      event: store.state.event,
     }
-  },
-  created() {
-    EventService.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data
-      })
-      .catch((error) => {
-        if (error.response && error.response.status == 404) {
-          console.log(error)
-          this.$router.replace({
-            name: "404Resource",
-            params: { resource: "event" },
-          })
-        } else {
-          this.$router.push({
-            name: "NetworkError",
-          })
-        }
-      })
   },
 }
 </script>
