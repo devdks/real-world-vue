@@ -32,8 +32,9 @@
 <script>
 import EventCard from "../components/EventCard.vue"
 import EventService from "@/services/EventService.js"
+import NProgress from "nprogress"
 // @ is an alias to /src
-import { watchEffect } from "vue"
+//import { watchEffect } from "vue"
 
 export default {
   name: "EventList",
@@ -47,7 +48,47 @@ export default {
       totalEvents: 0,
     }
   },
-  created() {
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        next((comp) => {
+          comp.events = response.data
+          if (comp.totalEvents == 0) {
+            comp.totalEvents = response.headers["x-total-count"]
+          }
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        next({
+          name: "NetworkError",
+        })
+      })
+      .finally(() => {
+        NProgress.done()
+      })
+  },
+  beforeRouteUpdate(routeTo) {
+    NProgress.start()
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        this.events = response.data
+        if (this.totalEvents == 0) {
+          this.totalEvents = response.headers["x-total-count"]
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        return {
+          name: "NetworkError",
+        }
+      })
+      .finally(() => {
+        NProgress.done()
+      })
+  },
+  /* created() {
     watchEffect(() => {
       this.events = null
       EventService.getEvents(2, this.page)
@@ -64,7 +105,7 @@ export default {
           })
         })
     })
-  },
+  }, */
   computed: {
     getTotalPages() {
       return Math.ceil(this.totalEvents / 2)
