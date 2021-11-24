@@ -3,6 +3,7 @@ import { createStore } from "vuex"
 export default createStore({
   state: {
     event: null,
+    user: "Dav",
   },
   mutations: {
     SET_EVENT(state, event) {

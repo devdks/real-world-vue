@@ -9,6 +9,7 @@ import NetworkError from "../views/NetworkError.vue"
 import NProgress from "nprogress"
 import EventService from "@/services/EventService.js"
 import store from "../store"
+import EventCreate from "../views/EventCreate.vue"
 
 function beforeEnterEventLayout(routeTo) {
   return EventService.getEvent(routeTo.params.id)
@@ -84,6 +85,11 @@ const routes = [
   {
     path: "/about",
     redirect: { name: "About" },
+  },
+  {
+    path: "/events/create",
+    name: "EventCreate",
+    component: EventCreate,
   },
   {
     path: "/:catchAll(.*)",
