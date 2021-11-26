@@ -13,13 +13,18 @@
 </template>
 
 <script>
-import store from "@/store"
+import { mapGetters } from "vuex"
 
 export default {
-  data() {
+  /* data() {
     return {
       event: store.state.event,
     }
+  }, */
+  computed: {
+    ...mapGetters({
+      event: "getEvent",
+    }),
   },
 }
 </script>

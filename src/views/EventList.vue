@@ -42,11 +42,28 @@ export default {
   components: {
     EventCard,
   },
-  beforeRouteEnter(routeTo) {
-    store.dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
+      .then(() => {
+        next()
+      })
+      .catch((error) => {
+        console.log(error)
+        next({
+          name: "NetworkError",
+        })
+      })
   },
   beforeRouteUpdate(routeTo) {
-    return store.dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
+    return store
+      .dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
+      .catch((error) => {
+        console.log(error)
+        return {
+          name: "NetworkError",
+        }
+      })
   },
   /* created() {
     watchEffect(() => {

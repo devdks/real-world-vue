@@ -113,7 +113,19 @@ export default {
       /* this.event.id = uuidv4()
       this.event.organizer = this.$store.state.user */
       console.log("Event:", event)
-      this.$store.dispatch("createEvent", event)
+      this.$store
+        .dispatch("createEvent", event)
+        .then(() => {
+          this.$router.push({
+            name: "EventDetails",
+            params: { id: event.id },
+          })
+        })
+        .catch(() => {
+          return {
+            name: "NetworkError",
+          }
+        })
     },
   },
 }

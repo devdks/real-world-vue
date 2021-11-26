@@ -24,42 +24,33 @@ export default createStore({
   },
   actions: {
     fetchEvent({ commit, getters }, id) {
-      const existingEvent = getters.getEvents.find((event) => event.id === id)
+      const existingEvent = getters.getEvents.find(
+        (event) => event.id.toString() === id.toString()
+      )
       if (existingEvent) {
-        return commit("SET_EVENT", existingEvent)
+        commit("SET_EVENT", existingEvent)
+        return
+      } else {
+        return EventService.getEvent(id)
+          .then((response) => {
+            commit("SET_EVENT", response.data)
+          })
+          .catch((error) => {
+            throw error
+          })
       }
-      return EventService.getEvent(id)
-        .then((response) => {
-          commit("SET_EVENT", response.data)
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 404) {
-            console.log(error)
-            return {
-              replace: true,
-              name: "404Resource",
-              params: { resource: "event" },
-            }
-          } else {
-            return {
-              name: "NetworkError",
-            }
-          }
-        })
     },
     fetchEvents({ commit, getters }, page) {
       return EventService.getEvents(2, page)
         .then((response) => {
           commit("SET_EVENTS", response.data)
-          if (getters.totalEventsCount == 0) {
+          if (getters.totalEventsCount !== response.headers["x-total-count"]) {
             commit("SET_TOTAL_EVENTS_COUNT", response.headers["x-total-count"])
           }
         })
         .catch((error) => {
           console.log(error)
-          return {
-            name: "NetworkError",
-          }
+          throw error
         })
     },
     createEvent({ commit }, event) {
@@ -69,6 +60,7 @@ export default createStore({
         })
         .catch((error) => {
           console.log(error)
+          throw error
         })
     },
   },

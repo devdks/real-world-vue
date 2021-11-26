@@ -85,6 +85,26 @@
       "date": "10/02/2022",
       "time": "12:00PM",
       "organizer": "Dav"
+    },
+    {
+      "id": "b4429cf4-512a-4fbe-a0a4-c210b666f28c",
+      "category": "community",
+      "title": "Soninkara",
+      "description": "soninke rassemblement",
+      "location": "Dakar",
+      "date": "11/12/2021",
+      "time": "12:00PM",
+      "organizer": "Dav"
+    },
+    {
+      "id": "7fb66003-3e35-4f2c-abd3-f2c1aaa23553",
+      "category": "animal welfare",
+      "title": "Lion Toileting",
+      "description": "lions erwhere",
+      "location": "Lyon",
+      "date": "10/02/2022",
+      "time": "12:00PM",
+      "organizer": "Dav"
     }
   ]
 }

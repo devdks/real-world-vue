@@ -11,26 +11,22 @@ import NProgress from "nprogress"
 import store from "../store"
 import EventCreate from "../views/EventCreate.vue"
 
-/* function beforeEnterEventLayout(routeTo) {
-  return EventService.getEvent(routeTo.params.id)
-    .then((response) => {
-      store.dispatch("setEvent", response.data)
-    })
-    .catch((error) => {
-      if (error.response && error.response.status == 404) {
-        console.log(error)
-        return {
-          replace: true,
-          name: "404Resource",
-          params: { resource: "event" },
-        }
-      } else {
-        return {
-          name: "NetworkError",
-        }
+function beforeEnterEventLayout(routeTo) {
+  return store.dispatch("fetchEvent", routeTo.params.id).catch((error) => {
+    if (error.response && error.response.status == 404) {
+      console.log(error)
+      return {
+        replace: true,
+        name: "404Resource",
+        params: { resource: "event" },
       }
-    })
-} */
+    } else {
+      return {
+        name: "NetworkError",
+      }
+    }
+  })
+}
 
 const routes = [
   {
@@ -44,7 +40,7 @@ const routes = [
     name: "EventLayout",
     props: true,
     component: EventLayout,
-    beforeEnter: (to) => store.dispatch("fetchEvent", to.params.id),
+    beforeEnter: (to) => beforeEnterEventLayout(to),
     children: [
       {
         path: "",
