@@ -65,6 +65,26 @@
       "time": "11:00",
       "petsAllowed": false,
       "organizer": "Brody Kill"
+    },
+    {
+      "id": "869ab440-c5f6-4a61-b976-695478f1b485",
+      "category": "animal welfare",
+      "title": "Horse brushing race",
+      "description": "horse event",
+      "location": "Atlanta",
+      "date": "25/11/2022",
+      "time": "12:00PM",
+      "organizer": "Dav"
+    },
+    {
+      "id": "77306760-724a-48a1-bc0e-c1a4f089308e",
+      "category": "nature",
+      "title": "Streets CleanUp",
+      "description": "Let's clean the streets",
+      "location": "Dakar",
+      "date": "10/02/2022",
+      "time": "12:00PM",
+      "organizer": "Dav"
     }
   ]
 }

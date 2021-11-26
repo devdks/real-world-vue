@@ -31,7 +31,8 @@
 
 <script>
 import EventCard from "../components/EventCard.vue"
-import EventService from "@/services/EventService.js"
+import { mapGetters } from "vuex"
+import store from "../store"
 // @ is an alias to /src
 //import { watchEffect } from "vue"
 
@@ -41,43 +42,11 @@ export default {
   components: {
     EventCard,
   },
-  data() {
-    return {
-      events: null,
-      totalEvents: 0,
-    }
-  },
-  beforeRouteEnter(routeTo, routeFrom, next) {
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
-      .then((response) => {
-        next((comp) => {
-          comp.events = response.data
-          if (comp.totalEvents == 0) {
-            comp.totalEvents = response.headers["x-total-count"]
-          }
-        })
-      })
-      .catch((error) => {
-        console.log(error)
-        next({
-          name: "NetworkError",
-        })
-      })
+  beforeRouteEnter(routeTo) {
+    store.dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
   },
   beforeRouteUpdate(routeTo) {
-    return EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
-      .then((response) => {
-        this.events = response.data
-        if (this.totalEvents == 0) {
-          this.totalEvents = response.headers["x-total-count"]
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        return {
-          name: "NetworkError",
-        }
-      })
+    return store.dispatch("fetchEvents", parseInt(routeTo.query.page) || 1)
   },
   /* created() {
     watchEffect(() => {
@@ -98,9 +67,14 @@ export default {
     })
   }, */
   computed: {
-    getTotalPages() {
+    ...mapGetters({
+      totalEvents: "totalEventsCount",
+      events: "getEvents",
+      getTotalPages: "getTotalPages",
+    }),
+    /* getTotalPages() {
       return Math.ceil(this.totalEvents / 2)
-    },
+    }, */
     hasNextPage() {
       return this.page < this.getTotalPages
     },

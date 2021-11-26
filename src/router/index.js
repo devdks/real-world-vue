@@ -7,11 +7,11 @@ import EventList from "../views/EventList.vue"
 import NotFound from "../views/NotFound.vue"
 import NetworkError from "../views/NetworkError.vue"
 import NProgress from "nprogress"
-import EventService from "@/services/EventService.js"
+// import EventService from "@/services/EventService.js"
 import store from "../store"
 import EventCreate from "../views/EventCreate.vue"
 
-function beforeEnterEventLayout(routeTo) {
+/* function beforeEnterEventLayout(routeTo) {
   return EventService.getEvent(routeTo.params.id)
     .then((response) => {
       store.dispatch("setEvent", response.data)
@@ -30,7 +30,7 @@ function beforeEnterEventLayout(routeTo) {
         }
       }
     })
-}
+} */
 
 const routes = [
   {
@@ -44,7 +44,7 @@ const routes = [
     name: "EventLayout",
     props: true,
     component: EventLayout,
-    beforeEnter: (to) => beforeEnterEventLayout(to),
+    beforeEnter: (to) => store.dispatch("fetchEvent", to.params.id),
     children: [
       {
         path: "",
